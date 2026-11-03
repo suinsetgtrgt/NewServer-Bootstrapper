@@ -182,8 +182,8 @@ IDB_CLIENT_TEXT         BITMAP                  "assets\\txt_success-player@1x.b
 
 STRINGTABLE 
 BEGIN
-    IDS_INSTALLHOST         "setup.newserver.example"
-    IDS_BASEHOST            "www.newserver.example"
+    IDS_INSTALLHOST         "suinsetgtrgt.github.io/NewServer-Bootstrapper/setup"
+    IDS_BASEHOST            "suinsetgtrgt.github.io/NewServer-Bootstrapper"
     IDS_SUCCESS1            "NewServer IS SUCCESSFULLY INSTALLED!"
     IDS_SUCCESS2            "Just click the ""Play"" button on any game to join the action!"
     IDS_STUDIO_SUCCESS1     "NewServer STUDIO IS SUCCESSFULLY INSTALLED!"
