@@ -13,12 +13,27 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
     
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
       
+    - name: Ensure ATL is installed
+      shell: pwsh
+      run: |
+        $installer = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
+        $vs = & "$installer\vswhere.exe" -latest -products * -property installationPath
+        Write-Host "Visual Studio at: $vs"
+        $has = Get-ChildItem "$vs\VC\Tools\MSVC\*\atlmfc\include\atlbase.h" -ErrorAction SilentlyContinue
+        if ($has) { Write-Host "ATL already present: $($has[0].FullName)" }
+        else {
+          Write-Host "ATL missing, installing..."
+          $p = Start-Process "$installer\setup.exe" -Wait -PassThru -ArgumentList "modify --installPath `"$vs`" --add Microsoft.VisualStudio.Component.VC.ATL --add Microsoft.VisualStudio.Component.VC.ATL.ARM64 --quiet --norestart --noUpdateInstaller"
+          Write-Host "installer exit code: $($p.ExitCode)"
+          Get-ChildItem "$vs\VC\Tools\MSVC\*\atlmfc\include\atlbase.h"
+        }
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3
       
